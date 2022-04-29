@@ -4,6 +4,34 @@ const app = express()
 const {bots, playerRecord} = require('./data')
 const {shuffleArray} = require('./utils')
 
+var Rollbar = require('rollbar')
+var rollbar = new Rollbar({
+  accessToken: '353933291077408bbb89ce50432590dc',
+  captureUncaught: true,
+  captureUnhandledRejections: true,
+})
+
+// record a generic message and send it to Rollbar
+rollbar.log('Hello world!')
+app.use(rollbar.errorHandler())
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html'))
+    rollbar.info('html file served successfully.')
+})
+
+app.get('/error', (req, res) => {
+    try {
+      madeUp()
+    } catch (err) {
+    rollbar.error('invalid function')
+    rollbar.critical('critical invalid function')
+    rollbar.warning("Facebook API unavailable")
+    rollbar.info("User logged in")
+    rollbar.debug("Cron job starting")
+    }
+  })
+
 app.use(express.json())
 
 app.get('/', (req, res) => {
