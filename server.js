@@ -20,7 +20,7 @@ app.get('/', (req, res) => {
     rollbar.info('html file served successfully.')
 })
 
-app.get('./public/index.html/error', (req, res) => {
+app.get('/error', (req, res) => {
     try {
       madeUp()
     } catch (err) {
