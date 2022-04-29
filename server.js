@@ -1,5 +1,4 @@
 const express = require('express')
-app.use(express.json())
 const path = require('path')
 const app = express()
 const {bots, playerRecord} = require('./data')
@@ -33,6 +32,7 @@ app.get('/error', (req, res) => {
     }
   })
 
+app.use(express.json())
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, './public/index.html'))
